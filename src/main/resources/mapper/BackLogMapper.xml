@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.library.dao.BackLogDao">
+
+
+    <delete id="delBackLog" parameterType="int">
+        delete from  backlog where back_id=#{id}
+    </delete>
+    <insert id="addBackLog" parameterType="com.cyt.library.bean.BackLog">
+        insert into backlog(user_id,book_id,back_date) values(#{user_id},#{book_id},#{back_date})
+    </insert>
+</mapper>

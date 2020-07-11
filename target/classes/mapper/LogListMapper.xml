@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.library.dao.LogListDao">
+
+    <select id="getAllBorrowList" resultType="com.cyt.library.bean.LogList">
+        select
+        borrowlog.borrow_id AS log_id,
+        borrowlog.user_id AS user_id,
+        user.name AS user_name,
+        borrowlog.book_id AS book_id,
+        book.name AS book_name,
+        borrowlog.borrow_date AS date
+        from user,book,borrowlog
+        where borrowlog.user_id=user.user_id and borrowlog.book_id=book.book_id
+    </select>
+    <select id="getAllBackList" resultType="com.cyt.library.bean.LogList">
+        select
+        backlog.back_id AS log_id,
+        backlog.user_id AS user_id,
+        user.name AS user_name,
+        backlog.book_id AS book_id,
+        book.name AS book_name,
+        backlog.back_date AS date
+        from user, book, backlog
+        where backlog.user_id=user.user_id and backlog.book_id=book.book_id
+    </select>
+    <select id="getBorrowListByName" resultType="com.cyt.library.bean.LogList" parameterType="String">
+        select
+        borrowlog.borrow_id AS log_id,
+        borrowlog.user_id AS user_id,
+        user.name AS user_name,
+        borrowlog.book_id AS book_id,
+        book.name AS book_name,
+        borrowlog.borrow_date AS date
+        from user,book,borrowlog
+        where borrowlog.user_id=user.user_id and borrowlog.book_id=book.book_id and user.name=#{name}
+    </select>
+    <select id="getBackListByName" resultType="com.cyt.library.bean.LogList" parameterType="String">
+        select
+        backlog.back_id AS log_id,
+        backlog.user_id AS user_id,
+        user.name AS user_name,
+        backlog.book_id AS book_id,
+        book.name AS book_name,
+        backlog.back_date AS date
+        from user, book, backlog
+        where backlog.user_id=user.user_id and backlog.book_id=book.book_id and user.name=#{name}
+    </select>
+    <select id="getBorrowListByKey" resultType="com.cyt.library.bean.LogList" parameterType="String">
+        select *
+        from (select
+              borrowlog.borrow_id AS log_id,
+              borrowlog.user_id AS user_id,
+              user.name AS user_name,
+              borrowlog.book_id AS book_id,
+              book.name AS book_name,
+              borrowlog.borrow_date AS date
+              from user,book,borrowlog
+              where borrowlog.user_id=user.user_id and borrowlog.book_id=book.book_id) as a
+        where a.user_name like #{key} or a.book_name like #{key}
+    </select>
+    <select id="getBackListByKey" resultType="com.cyt.library.bean.LogList" parameterType="String">
+        select *
+        from (select
+              backlog.back_id AS log_id,
+              backlog.user_id AS user_id,
+              user.name AS user_name,
+              backlog.book_id AS book_id,
+              book.name AS book_name,
+              backlog.back_date AS date
+              from user,book,backlog
+              where backlog.user_id=user.user_id and backlog.book_id=book.book_id) as a
+        where a.user_name like #{key} or a.book_name like #{key}
+    </select>
+    <select id="searchUserBorrowListByBook" resultType="com.cyt.library.bean.LogList">
+        select
+        borrowlog.borrow_id AS log_id,
+        borrowlog.user_id AS user_id,
+        user.name AS user_name,
+        borrowlog.book_id AS book_id,
+        book.name AS book_name,
+        borrowlog.borrow_date AS date
+        from user,book,borrowlog
+        where borrowlog.user_id=user.user_id and
+              borrowlog.book_id=book.book_id and
+              user.name=#{user} and
+              book.name like #{book}
+    </select>
+    <select id="searchUserBackListByBook" resultType="com.cyt.library.bean.LogList">
+        select
+        backlog.back_id AS log_id,
+        backlog.user_id AS user_id,
+        user.name AS user_name,
+        backlog.book_id AS book_id,
+        book.name AS book_name,
+        backlog.back_date AS date
+        from user, book, backlog
+        where backlog.user_id=user.user_id and
+              backlog.book_id=book.book_id and
+              user.name=#{user} and
+              book.name like #{book}
+    </select>
+
+</mapper>
